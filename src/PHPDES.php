@@ -33,7 +33,7 @@ class PHPDES
 
     public static function encrypt($key, $data) {
         $size = mcrypt_get_block_size('des', 'ecb');
-        $data = DES::pkcs5_pad($data, $size);
+        $data = self::pkcs5_pad($data, $size);
         $td = mcrypt_module_open('des', '', 'ecb', '');
         $iv = @mcrypt_create_iv(mcrypt_enc_get_iv_size($td), MCRYPT_RAND);
         @mcrypt_generic_init($td, $key, $iv);
@@ -55,7 +55,7 @@ class PHPDES
         $decrypted = mdecrypt_generic($td, $data);
         mcrypt_generic_deinit($td);
         mcrypt_module_close($td);
-        $result = DES::pkcs5_unpad($decrypted);
+        $result = self::pkcs5_unpad($decrypted);
         return $result;
     }
 }
